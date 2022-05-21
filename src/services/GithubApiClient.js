@@ -37,11 +37,11 @@ class GitHubApiClient {
         return new GitHubApiClientRepositoryModel(
           repository.name,
           repository.description,
+          repository.language,
           repository.owner.avatar_url
         );
       });
-
-      console.log(repositoriesList);
+      
       return repositoriesList;
     } catch (e) {
       throw e;

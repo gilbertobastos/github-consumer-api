@@ -1,7 +1,8 @@
 class GitHubApiClientRepositoryModel {
-  constructor(name, description, avatarUrl) {
+  constructor(name, description, language, avatarUrl) {
     this.name = name;
     this.description = description;
+    this.language = language;
     this.avatarUrl = avatarUrl;
   }
 }
