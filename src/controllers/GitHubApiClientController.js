@@ -20,6 +20,7 @@ class GitHubApiClientController {
       );
 
       res.send(repoList);
+      res.end();
     } catch (e) {
       throw e;
     }
