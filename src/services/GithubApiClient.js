@@ -49,8 +49,8 @@ class GitHubApiClient {
       }
 
       return repositoriesList;
-    } catch (e) {
-      throw e;
+    } catch {
+      return [];
     }
   }
 }
