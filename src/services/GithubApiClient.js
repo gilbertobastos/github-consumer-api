@@ -12,28 +12,22 @@ class GitHubApiClient {
 
   async getRepositoriesInfoByUser(
     username,
-    type = "owner",
-    sort = "full_name",
-    direction = "asc",
-    perPage = 30,
-    page = 1
+    sorting = "asc",
+    language,
+    maxResults
   ) {
-    let repositoriesList;
-
     try {
       const res = await this.axiosInstance.get(
         this.baseApiUrl + `users/${username}/repos`,
         {
           params: {
-            type: type,
-            sort: sort,
-            direction: direction,
-            per_page: perPage,
-            page: page,
+            sort: "created",
+            direction: sorting,
           },
         }
       );
-      repositoriesList = res.data.map((repository) => {
+
+      let repositoriesList = res.data.map((repository) => {
         return new GitHubApiClientRepositoryModel(
           repository.name,
           repository.description,
@@ -41,7 +35,19 @@ class GitHubApiClient {
           repository.owner.avatar_url
         );
       });
-      
+
+      /* Filtering the repos based on the language */
+      if (language) {
+        repositoriesList = repositoriesList.filter(
+          (repository) => repository.language === language
+        );
+      }
+
+      /* Slicing if necessary... */
+      if (maxResults) {
+        repositoriesList = repositoriesList.slice(0, maxResults);
+      }
+
       return repositoriesList;
     } catch (e) {
       throw e;
